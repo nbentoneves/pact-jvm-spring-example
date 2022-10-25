@@ -1,0 +1,72 @@
+{
+  "provider": {
+    "name": "random-word"
+  },
+  "consumer": {
+    "name": "phrase-consumer"
+  },
+  "interactions": [
+    {
+      "description": "get a random word",
+      "request": {
+        "method": "GET",
+        "path": "/getOneRandomWord"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "id": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+          "word": "string"
+        },
+        "matchingRules": {
+          "body": {
+            "$.id": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.word": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        },
+        "generators": {
+          "body": {
+            "$.id": {
+              "type": "Uuid"
+            },
+            "$.word": {
+              "type": "RandomString",
+              "size": 20
+            }
+          }
+        }
+      },
+      "providerStates": [
+        {
+          "name": "Word to retrieve"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "3.0.0"
+    },
+    "pact-jvm": {
+      "version": "4.0.10"
+    }
+  }
+}
